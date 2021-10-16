@@ -1,32 +1,23 @@
-<div align="center">
-
 # asdf-k3d [![Build](https://github.com/andy-from-mutiny/asdf-k3d/actions/workflows/build.yml/badge.svg)](https://github.com/andy-from-mutiny/asdf-k3d/actions/workflows/build.yml) [![Lint](https://github.com/andy-from-mutiny/asdf-k3d/actions/workflows/lint.yml/badge.svg)](https://github.com/andy-from-mutiny/asdf-k3d/actions/workflows/lint.yml)
 
-
 [k3d](https://k3d.io/) plugin for the [asdf version manager](https://asdf-vm.com).
-
-</div>
 
 # Contents
 
 - [Dependencies](#dependencies)
 - [Install](#install)
-- [Why?](#why)
 - [Contributing](#contributing)
 - [License](#license)
 
 # Dependencies
 
 - `bash`, `curl`, `tar`: generic POSIX utilities.
-- `SOME_ENV_VAR`: set this environment variable in your shell config to load the correct version of tool x.
 
 # Install
 
 Plugin:
 
 ```shell
-asdf plugin add k3d
-# or
 asdf plugin add k3d https://github.com/andy-from-mutiny/asdf-k3d.git
 ```
 
