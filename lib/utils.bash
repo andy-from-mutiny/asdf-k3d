@@ -25,7 +25,7 @@ sort_versions() {
 list_github_tags() {
   git ls-remote --tags --refs "$GH_REPO" |
     grep -o 'refs/tags/.*' | cut -d/ -f3- |
-    sed 's/^v//' # NOTE: You might want to adapt this sed to remove non-version strings from tags
+    sed 's/^v//'
 }
 
 list_all_versions() {
@@ -56,15 +56,11 @@ install_version() {
   fi
 
   (
-    cd "${ASDF_DOWNLOAD_PATH}"
-    make install-tools && make build
-    mkdir -p "${install_path}"
-    cp -r "${ASDF_DOWNLOAD_PATH}/bin" "${install_path}"
-
+    mkdir -p "${install_path}/bin"
+    K3D_INSTALL_DIR="${install_path}/bin" USE_SUDO='false' TAG="v${version}" bash "${ASDF_DOWNLOAD_PATH}/install.sh"
     local tool_cmd
     tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
     test -x "$install_path/bin/$tool_cmd" || fail "Expected $install_path/bin/$tool_cmd to be executable."
-
     echo "$TOOL_NAME $version installation was successful!"
   ) || (
     rm -rf "$install_path"
