@@ -2,7 +2,6 @@
 
 set -euo pipefail
 
-# TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for k3d.
 GH_REPO="https://github.com/rancher/k3d"
 TOOL_NAME="k3d"
 TOOL_TEST="k3d --help"
@@ -14,7 +13,6 @@ fail() {
 
 curl_opts=(-fsSL)
 
-# NOTE: You might want to remove this if k3d is not hosted on GitHub releases.
 if [ -n "${GITHUB_API_TOKEN:-}" ]; then
   curl_opts=("${curl_opts[@]}" -H "Authorization: token $GITHUB_API_TOKEN")
 fi
@@ -58,10 +56,11 @@ install_version() {
   fi
 
   (
-    mkdir -p "$install_path"
-    cp -r "$ASDF_DOWNLOAD_PATH"/* "$install_path"
+    cd "${ASDF_DOWNLOAD_PATH}"
+    make install-tools && make build
+    mkdir -p "${install_path}"
+    cp -r "${ASDF_DOWNLOAD_PATH}/bin" "${install_path}"
 
-    # TODO: Asert k3d executable exists.
     local tool_cmd
     tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
     test -x "$install_path/bin/$tool_cmd" || fail "Expected $install_path/bin/$tool_cmd to be executable."
